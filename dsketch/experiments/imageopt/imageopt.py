@@ -164,6 +164,7 @@ def optimise(target, params, cparams, sigma2params, render_fn, args):
         optim.zero_grad()
 
         est = render_fn(params, cparams, sigma2)
+        print(est.size())
         lss = loss_fn(est, target)
         lss.backward()
         optim.step()
