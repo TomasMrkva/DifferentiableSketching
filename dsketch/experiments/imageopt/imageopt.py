@@ -8,6 +8,7 @@ import torch
 from PIL import Image
 from torchvision.utils import save_image
 from tqdm import tqdm
+from pprint import pprint
 
 from dsketch.experiments.shared.args_losses import loss_choices, get_loss
 from dsketch.raster.composite import softor, over
@@ -431,6 +432,8 @@ def main():
     args.target_shape = target.shape
     args.grid_row_extent = 1
     args.grid_col_extent = target.shape[-1] / target.shape[-2]
+
+    pprint(vars(args))
 
     r = torch.linspace(-args.grid_row_extent, args.grid_row_extent, target.shape[-2])
     c = torch.linspace(-args.grid_col_extent, args.grid_col_extent, target.shape[-1])
