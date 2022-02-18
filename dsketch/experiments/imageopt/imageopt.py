@@ -390,7 +390,8 @@ def add_shared_args(parser):
 def main():
     fake_parser = argparse.ArgumentParser(add_help=False)
     add_shared_args(fake_parser)
-
+    print(torch.cuda.is_available())
+    
     fake_args, _ = fake_parser.parse_known_args()
 
     parser = argparse.ArgumentParser()
