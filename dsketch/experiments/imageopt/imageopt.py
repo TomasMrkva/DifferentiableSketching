@@ -295,7 +295,6 @@ def render(params, cparams, sigma2, grid, coordpairs, args):
         ras = ras.repeat_interleave(3, dim=2)  # [1, nprim, 3, row, col]
         lab = cparams.unsqueeze(-1).unsqueeze(-1)  # npts, 4, 1, 1
         ras = lab * ras
-        print(ras.size())
         return over(ras, dim=1, keepdim=False)
         # return over_recursive(ras, dim=1)
 
@@ -434,7 +433,7 @@ def main():
     args.grid_row_extent = 1
     args.grid_col_extent = target.shape[-1] / target.shape[-2]
 
-    # pprint(vars(args))
+    pprint(vars(args))
 
     r = torch.linspace(-args.grid_row_extent, args.grid_row_extent, target.shape[-2])
     c = torch.linspace(-args.grid_col_extent, args.grid_col_extent, target.shape[-1])
