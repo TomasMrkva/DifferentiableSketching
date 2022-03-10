@@ -301,7 +301,7 @@ def render(params, cparams, sigma2, grid, coordpairs, args):
     return softor(ras, dim=1, keepdim=True)
 
 
-def make_init_params(args, img):
+def make_init_params(args):
     torch.random.manual_seed(args.seed)
 
     pparams = torch.rand((args.points, 2), device=args.device)
