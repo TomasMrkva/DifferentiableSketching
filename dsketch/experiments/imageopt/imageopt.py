@@ -452,7 +452,7 @@ def main():
                                   device=args.device) * args.init_sigma2
         args.sigma2_current = sigma2params
 
-    params = make_init_params(args, target)
+    params = make_init_params(args)
 
     # pairs for crs splines
     coordpairs = torch.stack([torch.arange(0, args.crs_points + 2 - 3, 1),
