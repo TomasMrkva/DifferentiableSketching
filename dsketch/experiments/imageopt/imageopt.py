@@ -365,6 +365,9 @@ def add_shared_args(parser):
     parser.add_argument("--final-raster", type=str, required=False, help="path to save final raster")
     parser.add_argument("--final-pdf", type=str, required=False, help="path to save final pdf")
 
+    parser.add_argument("--tensor-dirp", type=str, required=False, help="path to save the params tensors")
+    parser.add_argument("--tensor-dirc", type=str, required=False, help="path to save the params tensors")
+
     parser.add_argument("--snapshots-path", type=str, required=False, help="path to save snapshots")
     parser.add_argument("--snapshots-steps", type=int, required=False, help="snapshots interval",
                         default=1000)
@@ -469,6 +472,12 @@ def main():
 
     params = optimise(target, params, cparams, sigma2params, r, args)
 
+    if args.tensor_dirp is not None:
+        torch.save(params.detach(), args.tensor_dirp)
+
+    if args.tensor_dirc is not None:
+        torch.save(params.detach(), args.tensor_dirc)
+
     if args.final_raster is not None:
         ras = r(params, cparams, args.sigma2_current)
         save_image(ras.detach().cpu(), args.final_raster)
@@ -476,7 +485,7 @@ def main():
     if args.final_pdf is not None:
         save_pdf(params, cparams, args, args.final_pdf)
     
-    return params.detach(), cparams.detach()
+    return
 
 
 if __name__ == "__main__":
