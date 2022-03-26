@@ -476,7 +476,7 @@ def main():
         torch.save(params.detach(), args.tensor_dirp)
 
     if args.tensor_dirc is not None:
-        torch.save(params.detach(), args.tensor_dirc)
+        torch.save(cparams.detach(), args.tensor_dirc)
 
     if args.final_raster is not None:
         ras = r(params, cparams, args.sigma2_current)
