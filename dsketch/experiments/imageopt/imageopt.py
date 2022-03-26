@@ -478,6 +478,8 @@ def main():
 
     if args.final_pdf is not None:
         save_pdf(params, cparams, args, args.final_pdf)
+    
+    return params, cparams, sigma2params
 
 
 if __name__ == "__main__":
