@@ -240,8 +240,8 @@ def clamp_params(params, args):
         pparams[:, 0].clamp_(-args.grid_row_extent, args.grid_row_extent)
         pparams[:, 1].clamp_(-args.grid_col_extent, args.grid_col_extent)
 
-    if args.lines > 0:
-        lparams = params[2 * args.points: 2 * args.points + 4 * args.lines].view(args.lines, 2, 2).data
+    if args.lines_additional > 0:
+        lparams = params[2 * args.points: 2 * args.points + 4 * args.lines_additional].view(args.lines_additional, 2, 2).data
         lparams[:, 0, 0].clamp_(-args.grid_row_extent, args.grid_row_extent)
         lparams[:, 1, 0].clamp_(-args.grid_row_extent, args.grid_row_extent)
         lparams[:, 0, 1].clamp_(-args.grid_col_extent, args.grid_col_extent)
@@ -301,7 +301,7 @@ def render(params, cparams, sigma2, grid, coordpairs, args):
     return softor(ras, dim=1, keepdim=True)
 
 
-def make_init_params(args, lines):
+def make_init_params(args):
     torch.random.manual_seed(args.seed)
 
     pparams = torch.rand((args.points, 2), device=args.device)
@@ -309,7 +309,7 @@ def make_init_params(args, lines):
     pparams[:, 1] = 2 * (pparams[:, 1] - 0.5) * args.grid_col_extent
     pparams = pparams.view(-1)
 
-    lparams = torch.rand((lines, 2, 2), device=args.device)
+    lparams = torch.rand((args.lines_additional, 2, 2), device=args.device)
     lparams[:, 0, 0] -= 0.5
     lparams[:, 0, 1] -= 0.5
     lparams[:, 0, 0] *= 2 * args.grid_row_extent
@@ -344,6 +344,8 @@ def add_shared_args(parser):
     parser.add_argument("--width", type=int,
                         help="Width to scale input to for optimisation (aspect ratio is preserved).")
     parser.add_argument("--lines", type=int, required=False, default=0, help="number of line segments.")
+    parser.add_argument("--lines-additional", type=int, required=False, default=0)
+
     parser.add_argument("--points", type=int, required=False, default=0, help="number of points.")
     parser.add_argument("--loss", choices=loss_choices(), required=True, help="loss function")
     parser.add_argument("--iters", type=int, required=False, help="number of iterations.", default=8000)
@@ -388,6 +390,7 @@ def add_shared_args(parser):
                         help="colour learning rate (defaults to --lr if not set)")
     parser.add_argument("--restarts", action='store_true', required=False, default=False,
                         help="reinit params if sigma2 becomes too small")
+
 
 
 def main():
