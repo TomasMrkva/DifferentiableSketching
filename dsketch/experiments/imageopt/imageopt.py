@@ -301,7 +301,7 @@ def render(params, cparams, sigma2, grid, coordpairs, args):
     return softor(ras, dim=1, keepdim=True)
 
 
-def make_init_params(args):
+def make_init_params(args, lines):
     torch.random.manual_seed(args.seed)
 
     pparams = torch.rand((args.points, 2), device=args.device)
@@ -309,7 +309,7 @@ def make_init_params(args):
     pparams[:, 1] = 2 * (pparams[:, 1] - 0.5) * args.grid_col_extent
     pparams = pparams.view(-1)
 
-    lparams = torch.rand((args.lines, 2, 2), device=args.device)
+    lparams = torch.rand((lines, 2, 2), device=args.device)
     lparams[:, 0, 0] -= 0.5
     lparams[:, 0, 1] -= 0.5
     lparams[:, 0, 0] *= 2 * args.grid_row_extent
