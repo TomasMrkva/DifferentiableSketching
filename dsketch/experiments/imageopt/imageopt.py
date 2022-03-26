@@ -390,7 +390,6 @@ def add_shared_args(parser):
 def main():
     fake_parser = argparse.ArgumentParser(add_help=False)
     add_shared_args(fake_parser)
-    print(torch.cuda.is_available())
     
     fake_args, _ = fake_parser.parse_known_args()
 
@@ -432,8 +431,6 @@ def main():
     args.target_shape = target.shape
     args.grid_row_extent = 1
     args.grid_col_extent = target.shape[-1] / target.shape[-2]
-
-    pprint(vars(args))
 
     r = torch.linspace(-args.grid_row_extent, args.grid_row_extent, target.shape[-2])
     c = torch.linspace(-args.grid_col_extent, args.grid_col_extent, target.shape[-1])
